@@ -201,16 +201,16 @@ flatMap ::
   (a -> List b)
   -> List a
   -> List b
-flatMap f = flatten $ map f 
+flatMap f = flatten . map f
 
 -- | Flatten a list of lists to a list (again).
 -- HOWEVER, this time use the /flatMap/ function that you just wrote.
 --
 -- prop> \x -> let types = x :: List (List Int) in flatten x == flattenAgain x
 flattenAgain ::
-  List (List a)
-  -> List a
-flattenAgain = flatMap (++)
+  List (List a) -- (++) :: List a -> List a -> List a 
+  -> List a -- id :: a -> a
+flattenAgain = flatMap id
 
 -- | Convert a list of optional values to an optional list of values.
 --
@@ -237,7 +237,7 @@ flattenAgain = flatMap (++)
 seqOptional ::
   List (Optional a)
   -> Optional (List a)
-seqOptional = foldRight (twiceOptional (:.)) (Full Nill)
+seqOptional = foldRight (twiceOptional (:.)) (Full Nil)
 
 -- | Find the first element in the list matching the predicate.
 --
@@ -293,7 +293,7 @@ lengthGT4 xs | length xs > 4 = True | otherwise = False
 reverse ::
   List a
   -> List a
-reverse (xs:x) = x (++) reverse xs 
+reverse = foldLeft (flip (:.)) Nil
 
 -- | Produce an infinite `List` that seeds with the given value at its head,
 -- then runs the given function for subsequent elements

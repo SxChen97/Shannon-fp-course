@@ -153,9 +153,7 @@ lift2 ::
   -> f a
   -> f b
   -> f c
-lift2 f fa fb = 
-  let fbc f <$> fa 
-  in fbc <*> fb 
+lift2 f fa fb = f <$> fa <*> fb
 
 -- | Apply a ternary function in the environment.
 -- /can be written using `lift2` and `(<*>)`./
@@ -227,8 +225,7 @@ lift0 ::
   Applicative f =>
   a
   -> f a
-lift0  = <$> 
-
+lift0  = pure 
 
 -- | Apply a unary function in the environment.
 -- /can be written using `lift0` and `(<*>)`./
@@ -373,9 +370,9 @@ filtering ::
   (a -> f Bool)
   -> List a
   -> f (List a)
-filtering f list =
-  let x = filter f list
-  in sequence x
+filtering f list = undefined
+  -- let x = filter f list
+  -- in sequence x
 
 -----------------------
 -- SUPPORT LIBRARIES --

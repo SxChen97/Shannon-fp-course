@@ -61,7 +61,6 @@ bindOptional f (Full a) = f a
   -> a
   -> a
 (??) Empty a = a
-(??) Empty (Full a) = a
 (??) (Full a) _ = a
 
 
@@ -100,7 +99,7 @@ optional ::
   -> b
   -> Optional a
   -> b
-optional f a (Full x) = a +  f x 
+optional f a (Full x) = f x 
 optional _ a Empty = a 
 
 applyOptional :: Optional (a -> b) -> Optional a -> Optional b
