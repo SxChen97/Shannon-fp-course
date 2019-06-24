@@ -19,17 +19,17 @@ instance (Functor f, Functor g) =>
   (<$>) :: (a -> b) 
     -> Compose f g a
     -> Compose f g b
-  (<$>) f (Compose fga) = Compose ((f <$> ) <$> fgb) 
+  (<$>) f (Compose fga) = undefined
     
 
 instance (Applicative f, Applicative g) =>
   Applicative (Compose f g) where
 -- Implement the pure function for an Applicative instance for Compose
-  pure :: a -> Compose a 
-  pure = Compose 
+  pure :: a -> Compose f g a
+  pure = Compose . pure . pure
 -- Implement the (<*>) function for an Applicative instance for Compose
-  (<*>) :: Compose (a -> b) -> Compose f g a -> Compose f g b
-  (<*>) Compose f fga = 
+  (<*>) :: Compose f g (a -> b) -> Compose f g a -> Compose f g b
+  (<*>) = undefined
 
 instance (Monad f, Monad g) =>
   Monad (Compose f g) where

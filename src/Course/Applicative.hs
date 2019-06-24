@@ -370,7 +370,15 @@ filtering ::
   (a -> f Bool)
   -> List a
   -> f (List a)
-filtering f list = undefined
+filtering f list = 
+  let pred = (\a -> ifM (pure a) Nil <$> f a) <$> list 
+  in flatten <$> sequence pred
+  where
+    ifM fa _ True = fa
+    ifM _ fa False = fa
+    
+
+
   -- let x = filter f list
   -- in sequence x
 

@@ -48,7 +48,7 @@ instance Monad List where
     (a -> List b)
     -> List a
     -> List b
-  (=<<) f = map f
+  (=<<) f = flatMap f
 
 -- | Binds a function on an Optional.
 --
@@ -67,9 +67,9 @@ instance Monad Optional where
 -- 119
 instance Monad ((->) t) where
   (=<<) ::
-    (a -> ((->) t b))
-    -> ((->) t a)
-    -> ((->) t b)
+    (a -> (t -> b))
+    -> (t -> a)
+    -> (t -> b)
   (=<<) atb ta t = atb (ta t) t
     
 
@@ -109,7 +109,7 @@ instance Monad ((->) t) where
   f (a -> b)
   -> f a
   -> f b
-(<**>) fab fa f = fab (fa f) f
+(<**>) fab fa =  (<$> fa) =<< fab
 
 infixl 4 <**>
 
@@ -130,8 +130,8 @@ join ::
   Monad f =>
   f (f a)
   -> f a
-join ffa = id (=<<) ffa 
-  
+join ffa = id =<< ffa
+
 
 -- | Implement a flipped version of @(=<<)@, however, use only
 -- @join@ and @(<$>)@.
