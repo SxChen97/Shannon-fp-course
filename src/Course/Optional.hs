@@ -83,8 +83,8 @@ bindOptional f (Full a) = f a
   Optional a
   -> Optional a
   -> Optional a
+(<+>) (Full a) _ = Full a
 (<+>) Empty a = a 
-(<+>) (Full a) (Full b) = Full a
 
 
 -- | Replaces the Full and Empty constructors in an optional.

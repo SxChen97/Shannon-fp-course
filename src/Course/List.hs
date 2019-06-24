@@ -277,7 +277,8 @@ find p = foldRight (\a as -> if p a then Full a else as) Empty
 lengthGT4 ::
   List a
   -> Bool
-lengthGT4 xs | length xs > 4 = True | otherwise = False 
+lengthGT4 (_ :. _ :. _ :. _ :. _) = True
+lengthGT4 _ = False
 
 -- | Reverse a list.
 --
